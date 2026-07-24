@@ -348,9 +348,9 @@ async function init() {
     state.plan.selectedSubjects = registry.subjects.filter(subject => subject.includeInPlan).map(subject => subject.id);
   }
   const initial = state.activeSelection;
-  state.activeSelection = initial === PLAN_SELECTION || validIds.has(initial)
+  state.activeSelection = validIds.has(initial)
     ? initial
-    : (registry.defaultSubject || registry.subjects[0]?.id || PLAN_SELECTION);
+    : (registry.defaultSubject || registry.subjects[0]?.id);
   populateSelector();
   bindGlobalEvents();
   await switchSelection(state.activeSelection, false);
@@ -358,7 +358,7 @@ async function init() {
 
 function populateSelector() {
   const subjectOptions = registry.subjects.map(subject => `<option value="${esc(subject.id)}">${esc(subject.name)}</option>`).join('');
-  elements.selector.innerHTML = `<option value="${PLAN_SELECTION}">Plan combinado</option><optgroup label="Materias">${subjectOptions}</optgroup>`;
+  elements.selector.innerHTML = `<optgroup label="Materias">${subjectOptions}</optgroup>`;
   elements.selector.value = state.activeSelection;
 }
 
@@ -370,7 +370,7 @@ function bindGlobalEvents() {
   elements.resetProgress.addEventListener('click', resetProgress);
   elements.checklistForm.addEventListener('submit', saveChecklistDialog);
   elements.errorForm.addEventListener('submit', saveErrorDialog);
-  elements.planTaskForm.addEventListener('submit', savePlanTaskDialog);
+  elements.planTaskForm?.addEventListener('submit', savePlanTaskDialog);
 }
 
 async function switchSelection(value, persist = true) {
@@ -511,9 +511,7 @@ function renderDashboard() {
   const remainingMinutes = subject.topics
     .filter(topic => (subjectState.topicMastery[topic.id] || 'nunca_visto') !== 'sale_solo')
     .reduce((sum, topic) => sum + (topic.estimatedMinutes || 60), 0);
-  const todayTasks = state.plan.days
-    .flatMap(day => day.date === todayISO() ? day.tasks : [])
-    .filter(task => task.subjectId === subject.subject.id);
+  const todayTasks = [];
   const topTopics = [...subject.topics].sort((a, b) => (b.frequency || 0) - (a.frequency || 0)).slice(0, 6);
   const cardsDue = dueFlashcards(subject).length;
 
@@ -532,15 +530,12 @@ function renderDashboard() {
         <div class="quick-actions">
           <button class="btn accent" data-jump-view="bank">Abrir banco</button>
           <button class="btn" data-jump-view="checklist">Actualizar checklist</button>
-          <button class="btn" data-jump-selection="${PLAN_SELECTION}">Ver plan combinado</button>
         </div>
       </div>
       <aside class="hero-note">
-        <h2>${examDate ? 'Próxima evaluación' : 'Fecha de evaluación'}</h2>
-        ${examDate
-          ? `<p><b>${esc(formatDate(examDate, { long: true }))}</b></p><p>${remainingDays >= 0 ? `${remainingDays} días disponibles.` : 'La fecha configurada ya pasó.'}</p>`
-          : '<p>No hay fecha configurada. Se puede definir desde el Plan combinado.</p>'}
-        <h3>Tareas de hoy</h3>
+        <h2>Seguimiento simple</h2>
+        <p>Por ahora la organización se concentra en los checklists de clases y temas. El calendario queda fuera de la navegación.</p>
+        <h3>Próximo paso</h3>
         ${todayTasks.length
           ? todayTasks.map(task => `<div class="mini-row"><b>${esc(task.title)}</b><div class="muted">${task.minutes} min</div></div>`).join('')
           : '<p class="muted">No hay bloques asignados para hoy.</p>'}
@@ -967,7 +962,7 @@ function renderChecklist() {
         <select id="checklistStatusFilter"><option value="all">Todos</option>${CHECKLIST_STATES.map(value => `<option value="${value}" ${filters.status === value ? 'selected' : ''}>${CHECKLIST_LABELS[value]}</option>`).join('')}</select>
       </label>
     </section>
-    <div class="search-summary"><span>${items.length} ítems visibles</span><span>Cambiar un estado no redistribuye el calendario.</span></div>
+    <div class="search-summary"><span>${items.length} ítems visibles</span><span>El progreso se guarda automáticamente.</span></div>
     ${Object.keys(groups).length ? Object.entries(groups).map(([group, groupItems]) => `
       <section class="panel checklist-group">
         <h2>${esc(group)}</h2>

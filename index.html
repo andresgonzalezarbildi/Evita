@@ -2,13 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><base href="/evita/"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="Plataforma de estudio multi-materia basada en bancos de ejercicios, materiales, checklist y calendario editable.">
+  <meta name="description" content="Plataforma de estudio multi-materia basada en bancos de ejercicios, materiales y checklists editables.">
   <title>Plataforma de estudio</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
-  
 </head>
 <body>
   <div class="app-shell">
@@ -109,46 +108,6 @@
     </form>
   </dialog>
 
-  <dialog class="dialog" id="planTaskDialog">
-    <form method="dialog" id="planTaskForm">
-      <div class="dialog-head">
-        <div>
-          <small>Calendario editable</small>
-          <h2 id="planTaskDialogTitle">Agregar tarea</h2>
-        </div>
-        <button class="icon-button" value="cancel" aria-label="Cerrar">×</button>
-      </div>
-      <input type="hidden" id="planTaskId">
-      <div class="form-grid">
-        <label class="field field-wide">Tarea
-          <input id="planTaskTitle" required maxlength="200">
-        </label>
-        <label class="field">Materia
-          <select id="planTaskSubject" required></select>
-        </label>
-        <label class="field">Fecha
-          <input id="planTaskDate" type="date" required>
-        </label>
-        <label class="field">Minutos
-          <input id="planTaskMinutes" type="number" min="5" max="600" step="5" required>
-        </label>
-        <label class="field">Tipo
-          <select id="planTaskKind">
-            <option value="tema">Tema</option>
-            <option value="ejercicio">Ejercicio</option>
-            <option value="repaso">Repaso</option>
-            <option value="practica">Práctica</option>
-            <option value="simulacro">Simulacro</option>
-            <option value="otro">Otro</option>
-          </select>
-        </label>
-      </div>
-      <div class="dialog-actions">
-        <button class="btn" value="cancel">Cancelar</button>
-        <button class="btn primary" id="savePlanTask" value="default">Guardar</button>
-      </div>
-    </form>
-  </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>

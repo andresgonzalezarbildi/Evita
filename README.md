@@ -53,3 +53,8 @@ El progreso se guarda en `localStorage`, separado de los JSON de contenido. Pued
 El plan se genera o redistribuye únicamente al pulsar **Actualizar plan**. Marcar una tarea como completada no mueve las demás. Las tareas del calendario pueden editarse, cambiarse de fecha, agregarse o borrarse manualmente.
 
 Para construir un plan combinado, seleccioná **Plan combinado**, elegí las materias, indicá sus fechas y la disponibilidad semanal, y actualizá el plan.
+
+
+## Estado actual
+
+El calendario y el plan combinado permanecen fuera de la navegación. La organización principal se realiza mediante checklists por materia. FBD incluye las 21 clases teóricas de OpenFING y un grupo separado de prácticos opcionales.
