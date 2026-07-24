@@ -1,16 +1,27 @@
 {
   "schemaVersion": 1,
-  "defaultSubject": "arqui",
+  "defaultSubject": "fbd",
   "subjects": [
     {
       "id": "arqui",
       "name": "Arquitectura de Computadoras",
       "shortName": "Arqui",
-      "description": "Materia migrada desde la última página de preparación de examen.",
+      "description": "Arquitectura de Computadoras, 1446",
       "color": "#e85d3f",
       "file": "./data/arqui.json",
       "includeInPlan": false,
       "archived": true,
+      "examDate": null
+    },
+    {
+      "id": "fbd",
+      "name": "Fundamentos de Bases de Datos",
+      "shortName": "FBD",
+      "description": "Fundamentos de Bases de Datos, 1911",
+      "color": "#4f7cac",
+      "file": "./data/fundamentos_bases_datos.json",
+      "includeInPlan": true,
+      "archived": false,
       "examDate": null
     }
   ]
