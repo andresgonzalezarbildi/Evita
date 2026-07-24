@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.study/subject.schema.json",
+  "title": "Materia para la plataforma de estudio",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "subject",
+    "topics",
+    "skills",
+    "materials",
+    "bank",
+    "checklist",
+    "flashcards",
+    "commonErrors",
+    "plan"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "subject": {
+      "type": "object",
+      "required": ["id", "name", "shortName", "description", "color", "examDate", "sourceUrl", "archived"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "shortName": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "description": { "type": "string" },
+        "color": { "$ref": "#/$defs/color" },
+        "examDate": { "$ref": "#/$defs/nullableDate" },
+        "sourceUrl": { "$ref": "#/$defs/nullableUrl" },
+        "archived": { "type": "boolean" }
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/topic" }
+    },
+    "skills": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/skill" }
+    },
+    "materials": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/material" }
+    },
+    "bank": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/bankItem" }
+    },
+    "checklist": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/checklistItem" }
+    },
+    "flashcards": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/flashcard" }
+    },
+    "commonErrors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/commonError" }
+    },
+    "plan": {
+      "type": "object",
+      "required": ["defaultStartDate", "examDate", "suggestedDailyMinutes", "tasks"],
+      "additionalProperties": false,
+      "properties": {
+        "defaultStartDate": { "$ref": "#/$defs/nullableDate" },
+        "examDate": { "$ref": "#/$defs/nullableDate" },
+        "suggestedDailyMinutes": { "type": "integer", "minimum": 15, "maximum": 720 },
+        "tasks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/planTask" }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "nullableDate": {
+      "type": ["string", "null"],
+      "pattern": "^$|^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "nullableUrl": {
+      "type": ["string", "null"],
+      "format": "uri"
+    },
+    "nullableId": {
+      "anyOf": [
+        { "$ref": "#/$defs/id" },
+        { "type": "null" }
+      ]
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "idArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "topic": {
+      "type": "object",
+      "required": ["id", "name", "description", "color", "order", "frequency", "estimatedMinutes"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "color": { "$ref": "#/$defs/color" },
+        "order": { "type": "integer", "minimum": 1 },
+        "frequency": { "type": "number", "minimum": 0 },
+        "estimatedMinutes": { "type": "integer", "minimum": 0, "maximum": 10000 }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "required": ["id", "name", "topicId", "subtopic", "frequency"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "topicId": { "$ref": "#/$defs/nullableId" },
+        "subtopic": { "type": "string" },
+        "frequency": { "type": "number", "minimum": 0 }
+      }
+    },
+    "material": {
+      "type": "object",
+      "required": [
+        "id", "title", "type", "year", "instance", "topicIds", "subtopics",
+        "description", "url", "official", "hasOfficialSolution", "solutionMaterialId",
+        "content", "tags"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "year": { "type": ["integer", "string", "null"] },
+        "instance": { "type": ["string", "null"] },
+        "topicIds": { "$ref": "#/$defs/idArray" },
+        "subtopics": { "$ref": "#/$defs/stringArray" },
+        "description": { "type": "string" },
+        "url": { "$ref": "#/$defs/nullableUrl" },
+        "official": { "type": "boolean" },
+        "hasOfficialSolution": { "type": "boolean" },
+        "solutionMaterialId": { "$ref": "#/$defs/nullableId" },
+        "content": { "type": "string" },
+        "tags": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "bankItem": {
+      "type": "object",
+      "required": [
+        "id", "kind", "sourceType", "title", "statement", "solution", "hints",
+        "topicIds", "subtopic", "skillIds", "year", "instance", "sourceMaterialId",
+        "url", "solutionUrl", "hasSolution", "officialSolution", "frequency",
+        "difficulty", "estimatedMinutes", "tags"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "enum": ["exercise", "theory"] },
+        "sourceType": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "solution": { "type": "string" },
+        "hints": { "$ref": "#/$defs/stringArray" },
+        "topicIds": { "$ref": "#/$defs/idArray" },
+        "subtopic": { "type": "string" },
+        "skillIds": { "$ref": "#/$defs/idArray" },
+        "year": { "type": ["integer", "string", "null"] },
+        "instance": { "type": ["string", "null"] },
+        "sourceMaterialId": { "$ref": "#/$defs/nullableId" },
+        "url": { "$ref": "#/$defs/nullableUrl" },
+        "solutionUrl": { "$ref": "#/$defs/nullableUrl" },
+        "hasSolution": { "type": "boolean" },
+        "officialSolution": { "type": "boolean" },
+        "frequency": { "type": "number", "minimum": 0 },
+        "difficulty": { "type": ["integer", "string", "null"] },
+        "estimatedMinutes": { "type": "integer", "minimum": 1, "maximum": 600 },
+        "tags": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "checklistItem": {
+      "type": "object",
+      "required": ["id", "group", "title", "description", "topicId", "order"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "group": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "topicId": { "$ref": "#/$defs/nullableId" },
+        "order": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "flashcard": {
+      "type": "object",
+      "required": ["id", "front", "back", "topicId", "tags"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "front": { "type": "string", "minLength": 1 },
+        "back": { "type": "string", "minLength": 1 },
+        "topicId": { "$ref": "#/$defs/nullableId" },
+        "tags": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "commonError": {
+      "type": "object",
+      "required": ["id", "title", "why", "correct", "topicId", "tags"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "why": { "type": "string" },
+        "correct": { "type": "string" },
+        "topicId": { "$ref": "#/$defs/nullableId" },
+        "tags": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "planTask": {
+      "type": "object",
+      "required": [
+        "id", "title", "topicId", "kind", "estimatedMinutes", "priority",
+        "frequency", "phase", "dependsOn", "materialIds", "bankItemIds"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "topicId": { "$ref": "#/$defs/nullableId" },
+        "kind": { "type": "string", "minLength": 1 },
+        "estimatedMinutes": { "type": "integer", "minimum": 5, "maximum": 600 },
+        "priority": { "type": "number", "minimum": 1, "maximum": 5 },
+        "frequency": { "type": "number", "minimum": 0 },
+        "phase": { "type": "integer", "minimum": 1 },
+        "dependsOn": { "$ref": "#/$defs/idArray" },
+        "materialIds": { "$ref": "#/$defs/idArray" },
+        "bankItemIds": { "$ref": "#/$defs/idArray" }
+      }
+    }
+  }
+}

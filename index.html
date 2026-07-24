@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Plataforma de estudio multi-materia basada en bancos de ejercicios, materiales, checklist y calendario editable.">
+  <title>Plataforma de estudio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <small>Plataforma de estudio</small>
+        <strong>Materias</strong>
+      </div>
+
+      <label class="subject-picker-label" for="subjectSelector">Vista actual</label>
+      <select class="subject-picker" id="subjectSelector" aria-label="Elegir materia o plan combinado"></select>
+
+      <nav class="nav" id="mainNav" aria-label="Secciones"></nav>
+
+      <div class="sidebar-foot">
+        <button class="side-action" id="exportProgress">Exportar progreso</button>
+        <label class="side-action file-action">Importar progreso
+          <input id="importProgress" type="file" accept="application/json" hidden>
+        </label>
+        <button class="side-action danger" id="resetProgress">Reiniciar progreso</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="mobile-top">
+        <strong id="mobileTitle">Estudio</strong>
+        <button id="menuToggle" type="button">Menú</button>
+      </header>
+      <main class="content" id="content" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <dialog class="dialog" id="checklistDialog">
+    <form method="dialog" id="checklistForm">
+      <div class="dialog-head">
+        <div>
+          <small>Checklist editable</small>
+          <h2 id="checklistDialogTitle">Agregar ítem</h2>
+        </div>
+        <button class="icon-button" value="cancel" aria-label="Cerrar">×</button>
+      </div>
+      <input type="hidden" id="checklistItemId">
+      <div class="form-grid">
+        <label class="field field-wide">Título
+          <input id="checklistTitle" required maxlength="180">
+        </label>
+        <label class="field field-wide">Descripción
+          <textarea id="checklistDescription" rows="4" maxlength="1000"></textarea>
+        </label>
+        <label class="field">Grupo
+          <input id="checklistGroup" maxlength="100" placeholder="Unidad o bloque">
+        </label>
+        <label class="field">Tema
+          <select id="checklistTopic"></select>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn" value="cancel">Cancelar</button>
+        <button class="btn primary" id="saveChecklistItem" value="default">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="errorDialog">
+    <form method="dialog" id="errorForm">
+      <div class="dialog-head">
+        <div>
+          <small>Banco personal de errores</small>
+          <h2 id="errorDialogTitle">Registrar error</h2>
+        </div>
+        <button class="icon-button" value="cancel" aria-label="Cerrar">×</button>
+      </div>
+      <input type="hidden" id="errorId">
+      <div class="form-grid">
+        <label class="field">Materia
+          <select id="errorSubject" required></select>
+        </label>
+        <label class="field">Tema
+          <select id="errorTopic"></select>
+        </label>
+        <label class="field field-wide">Ejercicio relacionado
+          <select id="errorBankItem"></select>
+        </label>
+        <label class="field field-wide">¿Qué salió mal?
+          <textarea id="errorWhat" rows="4" required maxlength="2500"></textarea>
+        </label>
+        <label class="field field-wide">Idea o procedimiento correcto
+          <textarea id="errorCorrect" rows="4" required maxlength="2500"></textarea>
+        </label>
+        <label class="field">Fecha
+          <input id="errorDate" type="date" required>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn" value="cancel">Cancelar</button>
+        <button class="btn primary" id="saveError" value="default">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="planTaskDialog">
+    <form method="dialog" id="planTaskForm">
+      <div class="dialog-head">
+        <div>
+          <small>Calendario editable</small>
+          <h2 id="planTaskDialogTitle">Agregar tarea</h2>
+        </div>
+        <button class="icon-button" value="cancel" aria-label="Cerrar">×</button>
+      </div>
+      <input type="hidden" id="planTaskId">
+      <div class="form-grid">
+        <label class="field field-wide">Tarea
+          <input id="planTaskTitle" required maxlength="200">
+        </label>
+        <label class="field">Materia
+          <select id="planTaskSubject" required></select>
+        </label>
+        <label class="field">Fecha
+          <input id="planTaskDate" type="date" required>
+        </label>
+        <label class="field">Minutos
+          <input id="planTaskMinutes" type="number" min="5" max="600" step="5" required>
+        </label>
+        <label class="field">Tipo
+          <select id="planTaskKind">
+            <option value="tema">Tema</option>
+            <option value="ejercicio">Ejercicio</option>
+            <option value="repaso">Repaso</option>
+            <option value="practica">Práctica</option>
+            <option value="simulacro">Simulacro</option>
+            <option value="otro">Otro</option>
+          </select>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn" value="cancel">Cancelar</button>
+        <button class="btn primary" id="savePlanTask" value="default">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

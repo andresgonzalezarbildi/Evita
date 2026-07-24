@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "subject": {
+    "id": "materia_nueva",
+    "name": "Materia nueva",
+    "shortName": "Nueva",
+    "description": "",
+    "color": "#2b7a78",
+    "examDate": null,
+    "sourceUrl": null,
+    "archived": false
+  },
+  "topics": [],
+  "skills": [],
+  "materials": [],
+  "bank": [],
+  "checklist": [],
+  "flashcards": [],
+  "commonErrors": [],
+  "plan": {
+    "defaultStartDate": null,
+    "examDate": null,
+    "suggestedDailyMinutes": 120,
+    "tasks": []
+  },
+  "metadata": {
+    "generatedAt": null,
+    "sourceNotes": ""
+  }
+}

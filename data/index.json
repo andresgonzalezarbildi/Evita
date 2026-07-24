@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "defaultSubject": "arqui",
+  "subjects": [
+    {
+      "id": "arqui",
+      "name": "Arquitectura de Computadoras",
+      "shortName": "Arqui",
+      "description": "Materia migrada desde la última página de preparación de examen.",
+      "color": "#e85d3f",
+      "file": "./data/arqui.json",
+      "includeInPlan": false,
+      "archived": true,
+      "examDate": null
+    }
+  ]
+}
