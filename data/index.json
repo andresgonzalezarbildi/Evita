@@ -1,7 +1,18 @@
 {
   "schemaVersion": 1,
-  "defaultSubject": "fbd",
+  "defaultSubject": "redes",
   "subjects": [
+    {
+      "id": "redes",
+      "name": "Redes de Computadoras",
+      "shortName": "Redes",
+      "description": "Redes de Computadoras: guía, materiales, ejercicios y repaso",
+      "color": "#0F766E",
+      "file": "./data/redes.json",
+      "includeInPlan": true,
+      "archived": false,
+      "examDate": null
+    },
     {
       "id": "arqui",
       "name": "Arquitectura de Computadoras",

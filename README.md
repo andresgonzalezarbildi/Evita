@@ -1,3 +1,24 @@
+# Evita · Plataforma de estudio con Redes de Computadoras
+
+Esta versión incorpora **Redes de Computadoras** como materia nativa y la deja seleccionada por defecto. Incluye:
+
+- 12 bloques temáticos y 34 capacidades.
+- 23 transcripciones de OpenFING de 2013, con advertencias de vigencia.
+- Diapositivas y 9 prácticos del curso, más cartilla de sockets.
+- Evaluaciones 2024–2026 con preguntas y soluciones en el banco.
+- Archivo histórico 2011–2026 enlazado por año.
+- Checklist, tarjetas, errores frecuentes y plan de estudio.
+
+Para ejecutar:
+
+```bash
+python -m http.server 8000
+```
+
+Luego abrir `http://localhost:8000`. No abrir `index.html` directamente porque los JSON se cargan por HTTP.
+
+---
+
 # Plataforma de estudio
 
 Aplicación web estática para centralizar materias, bancos de ejercicios, materiales, checklist, dominio por tema, flashcards, errores personales y un plan combinado editable.
